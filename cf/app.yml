@@ -1,0 +1,54 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: "Crafting Clouds with CloudFormation"
+
+# Use Mapping for account specific settings
+Mappings:
+  Account:
+    "397713163394":
+      name: "devl"
+      ami:  "ami-0b33d91d"
+
+    "999999999999":
+      name: "prod"
+      ami:  "ami-b63769a1"
+
+Parameters:
+  VPC:
+    Description: 'The VPC in which to run the webserver instance'
+    Type: 'AWS::EC2::VPC::Id'
+  Subnet:
+    Description: 'The subnet in the VPC in which to run the webserver instance'
+    Type: 'AWS::EC2::Subnet::Id'
+
+Resources:
+  WebServer:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      ImageId: !FindInMap [ Account, !Ref "AWS::AccountId", ami ]
+      KeyName: "crafting-clouds"
+      InstanceType: "t2.micro"
+      SecurityGroupIds:
+        - !Ref SecurityGroupAllHttp
+      SubnetId: !Ref Subnet
+
+
+  SecurityGroupAllHttp:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: 'Static public WebServer'
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - FromPort: 80
+          ToPort: 80
+          IpProtocol: tcp
+          CidrIp: '0.0.0.0/0'
+
+Outputs:
+  InstanceID:
+    Description: WebServer Instance
+    Value: !Ref WebServer
+  WebserverIP:
+    Description: The ip address for the webserver
+    Value: !GetAtt WebServer.PrivateIp
