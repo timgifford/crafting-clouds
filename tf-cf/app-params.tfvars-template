@@ -1,0 +1,2 @@
+vpc = "enter your vpc_id here"
+subnet = "enter your subnet_id here"
