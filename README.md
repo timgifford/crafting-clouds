@@ -60,11 +60,11 @@ I don't check in parameters into Git. I've created a template file that you can 
 I've also included a `.gitignore` so that you don't accidentally commit 
 your parameters.
 
-Copy [app-params.tfvars-template](app-params.tfvars-template) to `app-params.tfvars` 
+Copy [terraform.tfvars-template](terraform.tfvars-template) to `terraform.tfvars` 
 
 Use this command from the root of the project.
 ```$bash
-cp tf/app-params.tfvars-template tf/app-params.tfvars
+cp tf/terraform.tfvars-template tf/terraform.tfvars
 ```
 
-Modify `tf/app-params.tfvars` with your specific parameters.
+Modify `tf/terraform.tfvars` with your specific parameters.
