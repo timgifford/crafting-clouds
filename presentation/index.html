@@ -90,7 +90,6 @@
             </ul>
         </section>
 
-
         <section>
             <section>
                 <h2>3 Styles</h2>
@@ -104,9 +103,12 @@
             <section data-background="https://media.giphy.com/media/70Asu3n7btVgk/giphy.gif">
                 <h2>Why Declarative</h2>
                 <ul>
-                    <li>(Hussman)Dude's Law = Why / How</li>
                     <li>Scripted Infrastructure (IaC)</li>
                     <li>Resource Dependencies</li>
+                    <li>Variation of Dude's Law  (Hussman)</li>
+                        <ul>
+                            <li>Why / How => What / How</li>
+                        </ul>
                 </ul>
             </section>
 
@@ -146,9 +148,17 @@
             <section>
                 <h3>Imperative Scripting</h3>
                 <ul>
-                    <li>Python/Boto3</li>
+                    <li>Python</li>
+                        <ul>
+                            <li><a href="https://github.com/boto/boto3">Boto3</a></li>
+                            <li><a href="https://github.com/cloudtools/troposphere">Troposphere</a></li>
+                        </ul>
                     <li>Bash/PowerShell</li>
                     <li>Ruby</li>
+                    <ul>
+                        <li><a href="http://opensource.envato.com/projects/stack_master.html">StackMaster</a></li>
+                        <li><a href="http://www.sparkleformation.io/">SparkleFormation</a></li>
+                    </ul>
                 </ul>
             </section>
         </section>
@@ -332,6 +342,8 @@
                 <pre><code class="hljs" data-trim contenteditable>
                     terraform plan -var-file terraform.tfvars
                     </code></pre>
+
+                <p>Note: The default is <i>terraform.tfvars</i></p>
             </section>
 
             <section>
@@ -358,21 +370,70 @@
                     terraform destroy -var-file terraform.tfvars
                     </code></pre>
             </section>
-        </section>
 
-        <!--Terraform CF Interop-->
-        <section data-background-color="#0f002e">
+
             <section>
-                <h1>Terraform</h1>
-                <h2>Bonus - CF Interop</h2>
+                <h1>Questions</h1>
             </section>
 
-                <!--Terraform-->
-                <section>
-                    <h2>Meta</h2>
-                    <p>Create Cloudformation Stack from Terraform</p>
+            <section data-background="https://media.giphy.com/media/hEc4k5pN17GZq/giphy.gif">
 
-                    <pre><code class="hljs" data-trim contenteditable>
+            </section>
+        </section>
+
+
+        <section>
+            <section>
+                <h1>Extras</h1>
+            </section>
+
+            <section data-background-color="#0f002e">
+                <h2>Terraform IntelliJ Plugin</h2>
+
+            </section>
+
+            <section data-background-color="#0f002e">
+                <h2>Terraform Templates</h2>
+                <p>index.html.tpl</p>
+<pre><code class="hljs" data-trim contenteditable>
+&lt;html&gt;
+    &lt;body&gt;
+        &lt;h1&gt;${message}&lt;/h1&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+                <p>main.tf</p>
+<pre><code class="hljs" data-trim contenteditable>
+data "template_file" "index-page" {
+  template = "${file("index.html.tpl")}"
+
+  vars {
+    message = "Terraform"
+  }
+}
+
+output "rendered" {
+  value = "${data.template_file.index-page.rendered}"
+}
+</code></pre>
+
+            </section>
+
+
+            <section data-background-color="#0f002e">
+                <h2>Terraform Graph</h2>
+
+                <pre><code class="hljs" data-trim contenteditable>
+                    terraform graph | dot -Tpng > graph.png | open graph.png
+                    </code></pre>
+            </section>
+
+            <!--Terraform-->
+            <section data-background-color="#0f002e">
+                <h2>TF + CF</h2>
+                <p>Create Cloudformation Stack from Terraform</p>
+
+                <pre><code class="hljs" data-trim contenteditable>
 resource "aws_cloudformation_stack" "app-stack" {
   name = "crafting-clouds-tfcf"
 
@@ -386,19 +447,33 @@ resource "aws_cloudformation_stack" "app-stack" {
                         ${aws_s3_bucket_object.cf-stack.id}"
 }
                     </code></pre>
-                </section>
+            </section>
 
             <section>
-                <h1>Questions</h1>
+                <h2>CloudFormation Comments</h2>
+<pre><code class="hljs" data-trim contenteditable>
+# Use Mapping for account specific settings
+Mappings:
+  Account:
+    "397713163394":
+      name: "devl"
+      ami:  "ami-0b33d91d"
+
+    "999999999999":
+      name: "prod"
+      ami:  "ami-b63769a1"
+
+</code></pre>
+
+                <p>Since September 2016!</p>
+                <p class="fragment">Only in YAML files</p>
             </section>
 
-            <section data-background="https://media.giphy.com/media/hEc4k5pN17GZq/giphy.gif">
+            <section>
+                <h2>CloudFormation Designer</h2>
 
+                <img src="img/reddit-cf-designer.png"/>
             </section>
-        </section>
-
-        <section>
-            <h1>Extras</h1>
         </section>
 
         <section>
@@ -437,9 +512,11 @@ resource "aws_cloudformation_stack" "app-stack" {
                 <ul class="fragment">
                     <li>Speakers</li>
                     <li>Venue</li>
+                    <li>Employers</li>
                     <li>Sponsors</li>
                     <li>Promotions</li>
                 </ul>
+                <p class="fragment">Interested? Contact me</p>
             </section>
 
         </section>
@@ -448,6 +525,8 @@ resource "aws_cloudformation_stack" "app-stack" {
             <h1>Thanks</h1>
             <p>Tim Gifford</p>
             <p>tgifford@leantechniques.co</p>
+
+            <a href="https://github.com/timgifford/crafting-clouds">https://github.com/timgifford/crafting-clouds</a>
         </section>
 
     </div>

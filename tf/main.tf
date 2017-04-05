@@ -46,3 +46,19 @@ resource "aws_security_group" "all_http" {
     ]
   }
 }
+
+
+
+
+
+data "template_file" "index-page" {
+  template = "${file("index.html.tpl")}"
+
+  vars {
+    message = "Terraform"
+  }
+}
+
+output "rendered" {
+  value = "${data.template_file.index-page.rendered}"
+}
